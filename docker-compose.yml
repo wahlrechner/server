@@ -4,7 +4,7 @@ services:
     wahlrechner:
         network_mode: host
         container_name: wahlrechner
-        image: docker pull ghcr.io/wahlrechner/wahlrechner:v1.0
+        image: ghcr.io/wahlrechner/wahlrechner:latest
         command: bash -c 'docker/wait-for-it.sh db:3306 -t 120 -- docker/startup-production.sh'
         restart: always
         volumes:
