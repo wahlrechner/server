@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+    wahlrechner:
+        network_mode: host
+        container_name: wahlrechner
+        image: docker pull ghcr.io/wahlrechner/wahlrechner:v1.0
+        command: bash -c 'docker/wait-for-it.sh db:3306 -t 120 -- docker/startup-production.sh'
+        restart: always
+        volumes:
+            - ./data/static:/code/static/
+            - ./data/logs/wahlrechner:/code/logs/
+            - ./data/migrations/wahlrechner:/code/wahlrechner/migrations
+        env_file:
+            - ./config/config.env
+        depends_on:
+            - db
+
+    db:
+        network_mode: host
+        container_name: db
+        image: mariadb
+        restart: always
+        ports:
+            - "3306:3306"
+        env_file:
+            - ./config/config.env
+        volumes:
+            - ./data/mysql:/var/lib/mysql
+
+    web:
+        network_mode: host
+        container_name: web
+        build:
+            context: web/apache
+        restart: always
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./data/static:/wahlrechner/static/
+            - ./data/cert:/wahlrechner/cert/
+            - ./logs/apache:/usr/local/apache2/logs/
