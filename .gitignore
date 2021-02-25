@@ -1,5 +1,5 @@
-data/logs/wahlrechner/
-data/migrations/wahlrechner/
+data/logs/
+data/migrations/
 data/mysql/
 data/static/
 /web/cert/

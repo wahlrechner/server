@@ -2,13 +2,12 @@ version: "3"
 
 services:
     wahlrechner:
-        network_mode: host
         container_name: wahlrechner
         image: ghcr.io/wahlrechner/wahlrechner:latest
-        command: bash -c 'docker/wait-for-it.sh db:3306 -t 120 -- docker/startup-production.sh'
+        command: bash -c 'docker/wait-for-it/wait-for-it.sh db:3306 -t 120 -- docker/startup-production.sh'
         restart: always
         volumes:
-            - ./data/static:/code/static/
+            - ./data/static:/code/assets/
             - ./data/logs/wahlrechner:/code/logs/
             - ./data/migrations/wahlrechner:/code/wahlrechner/migrations
         env_file:
@@ -17,7 +16,6 @@ services:
             - db
 
     db:
-        network_mode: host
         container_name: db
         image: mariadb
         restart: always
@@ -29,7 +27,6 @@ services:
             - ./data/mysql:/var/lib/mysql
 
     web:
-        network_mode: host
         container_name: web
         build:
             context: web/apache
@@ -38,6 +35,7 @@ services:
             - "80:80"
             - "443:443"
         volumes:
-            - ./data/static:/wahlrechner/static/
-            - ./data/cert:/wahlrechner/cert/
-            - ./logs/apache:/usr/local/apache2/logs/
+            - ./data/static:/wahlrechner/static
+            - ./web/cert:/wahlrechner/cert
+            - ./data/logs/apache:/usr/local/apache2/logs
+            - /etc/letsencrypt:/etc/letsencrypt
