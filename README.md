@@ -75,13 +75,13 @@ $ sudo ln -s /snap/bin/certbot /usr/bin/certbot
 Lasse dir anschließend von certbot ein Zertifikat ausstellen (Eventuell muss der Pfad zu den Skripten angepasst werden):
 
 ```
-sudo certbot certonly --standalone --pre-hook "bash /root/wahlrechner-server/ServerStop.sh" --post-hook "bash /root/wahlrechner-server/ServerStart.sh"
+$ sudo certbot certonly --standalone --pre-hook "bash /root/wahlrechner-server/ServerStop.sh" --post-hook "bash /root/wahlrechner-server/ServerStart.sh"
 ```
 
 Erstelle anschließend einen Symlink, damit die Zertifikate automatisch aktualisiert werden können. **Ersetze `example.com` durch deine Domain:**
 
 ```
-ln -s /etc/letsencrypt/live/example.com/* web/cert
+$ ln -s /etc/letsencrypt/live/example.com/* web/cert
 ```
 
 ### Eigenes Zertifikat
