@@ -10,6 +10,8 @@ services:
             - ./data/static:/code/assets/
             - ./data/logs/wahlrechner:/code/logs/
             - ./data/migrations/wahlrechner:/code/wahlrechner/migrations
+            - ./config/design/templates:/code/wahlrechner/templates/custom
+            - ./config/design/static:/code/static/custom
         env_file:
             - ./config/config.env
         depends_on:
