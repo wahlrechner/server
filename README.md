@@ -15,7 +15,7 @@ $ sudo apt-get install git
 ### Repository klonen
 
 ```
-$ git clone https://github.com/wahlrechner/wahlrechner-server
+$ git clone -recurse-submodules https://github.com/wahlrechner/wahlrechner-server
 $ cd wahlrechner-server/
 ```
 
