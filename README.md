@@ -55,6 +55,17 @@ $ sudo curl -L "https://github.com/docker/compose/releases/download/1.28.4/docke
 $ sudo chmod +x /usr/local/bin/docker-compose
 ```
 
+## Konfiguration des Wahlrechners
+
+**Bevor du den Wahlrechner-Server das erste Mal startest,** musst du die Konfigurationsdatei `config.env` anpassen. Diese ist im Ordner `config/` zu finden.
+
+**DJANGO_SECRET_KEY:** Ersetze `ChangeThisToRandomStringInProduction` durch eine [zufällig generierte](https://1password.com/de/password-generator/) (mind. 30 Zeichen lang, bestehend aus Zahlen, Buchstaben und Sonderzeichen) Zeichenkette. Teile den Secret Key niemals mit jemand anderem!
+
+**DJANGO_DEFAULT_ADMIN_PASSWORD:** Beim erstmaligen Starten des Wahlrechners wird automatisch ein Admin-Account erstellt. Ersetze `adminpassword` durch ein erstes, sicheres Passwort. **Nach der erstmaligen Anmeldung in der Admin-Oberfläche solltest du dein Passwort zusätzlich nochmal ändern.**
+
+**MYSQL_PASSWORD:** Ersetze `SetDatabaseUserPassword` durch ein zufällig generiertes Passwort. Du wirst es niemals von Hand eingeben müssen - also lass dir bitte ein sicheres Passwort mit einem [Passwortgenerator](https://1password.com/de/password-generator/) generieren.
+
+
 ## Installation eines SSL-Zertifikats
 
 ### Let's Encrypt
@@ -78,6 +89,11 @@ Lasse dir anschließend von certbot ein Zertifikat ausstellen (Eventuell muss de
 $ sudo certbot certonly --standalone --pre-hook "bash /root/wahlrechner-server/ServerStop.sh" --post-hook "bash /root/wahlrechner-server/ServerStart.sh"
 ```
 
+cerbot führt auch nach dem generieren des Zertifikats die post-hook aus, deswegen musst du den Server zunächst wieder stoppen:
+```
+$ bash ServerStop.sh
+```
+
 Erstelle anschließend einen Symlink, damit die Zertifikate automatisch aktualisiert werden können. **Ersetze `example.com` durch deine Domain:**
 
 ```
@@ -87,16 +103,6 @@ $ ln -s /etc/letsencrypt/live/example.com/* web/cert
 ### Eigenes Zertifikat
 
 Du kannst auch ein eigenes Zertifikat verwenden. Dafür kopierst du den privaten Schlüssel in `/web/cert/privkey.pem` und den öffentlichen Schlüssel in `/web/cert/fullchain.pem`. Andere Dateinamen und Dateiendungen sind aktuell nicht möglich.
-
-## Konfiguration des Wahlrechners
-
-**Bevor du den Wahlrechner-Server das erste Mal startest,** musst du die Konfigurationsdatei `config.env` anpassen. Diese ist im Ordner `config/` zu finden.
-
-**DJANGO_SECRET_KEY:** Ersetze `ChangeThisToRandomStringInProduction` durch eine [zufällig generierte](https://1password.com/de/password-generator/) (mind. 30 Zeichen lang, bestehend aus Zahlen, Buchstaben und Sonderzeichen) Zeichenkette. Teile den Secret Key niemals mit jemand anderem!
-
-**DJANGO_DEFAULT_ADMIN_PASSWORD:** Beim erstmaligen Starten des Wahlrechners wird automatisch ein Admin-Account erstellt. Ersetze `adminpassword` durch ein erstes, sicheres Passwort. **Nach der erstmaligen Anmeldung in der Admin-Oberfläche solltest du dein Passwort zusätzlich nochmal ändern.**
-
-**MYSQL_PASSWORD:** Ersetze `SetDatabaseUserPassword` durch ein zufällig generiertes Passwort. Du wirst es niemals von Hand eingeben müssen - also lass dir bitte ein sicheres Passwort mit einem [Passwortgenerator](https://1password.com/de/password-generator/) generieren.
 
 ## Erstmaliges Starten des Wahlrechners
 
