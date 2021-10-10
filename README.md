@@ -89,11 +89,6 @@ Lasse dir anschließend von certbot ein Zertifikat ausstellen (Eventuell muss de
 $ sudo certbot certonly --standalone --pre-hook "bash /root/wahlrechner-server/ServerStop.sh" --post-hook "bash /root/wahlrechner-server/ServerStart.sh"
 ```
 
-cerbot führt auch nach dem generieren des Zertifikats die post-hook aus, deswegen musst du den Server zunächst wieder stoppen:
-```
-$ bash ServerStop.sh
-```
-
 Erstelle anschließend einen Symlink, damit die Zertifikate automatisch aktualisiert werden können. **Ersetze `example.com` durch deine Domain:**
 
 ```
