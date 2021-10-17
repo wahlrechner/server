@@ -8,15 +8,15 @@ Die folgende Anleitung funktioniert nur auf Debian-basierten Systemen, und wurde
 ### Installation von Git
 
 ```
-$ sudo apt-get update
-$ sudo apt-get install git
+sudo apt-get update
+sudo apt-get install git
 ```
 
 ### Repository klonen
 
 ```
-$ git clone --recurse-submodules https://github.com/wahlrechner/wahlrechner-server
-$ cd wahlrechner-server/
+git clone --recurse-submodules https://github.com/wahlrechner/server
+cd wahlrechner-server/
 ```
 
 ### Installation von Docker
@@ -24,23 +24,23 @@ $ cd wahlrechner-server/
 _Mehr Informationen zur Installation von Docker findest du [hier](https://docs.docker.com/engine/install/ubuntu/)._
 
 ```
-$ sudo apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+sudo apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
 ```
 
 ```
-$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 ```
 
 ```
-$ sudo add-apt-repository \
- "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
- $(lsb_release -cs) \
- stable"
+sudo add-apt-repository \
+"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+$(lsb_release -cs) \
+stable"
 ```
 
 ```
-$ sudo apt-get update
-$ sudo apt-get install docker-ce docker-ce-cli containerd.io
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
 ```
 
 ### Docker Compose
@@ -48,11 +48,11 @@ $ sudo apt-get install docker-ce docker-ce-cli containerd.io
 _Mehr Informationen zur Installation von Docker Compose findest du [hier](https://docs.docker.com/compose/install/)._
 
 ```
-$ sudo curl -L "https://github.com/docker/compose/releases/download/1.28.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/1.28.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 ```
 
 ```
-$ sudo chmod +x /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 ```
 
 ## Konfiguration des Wahlrechners
@@ -75,24 +75,24 @@ _Mehr Informationen zum Ausstellen eines SSL-Zertifikats mit certbot findest du 
 Installiere zuerst certbot:
 
 ```
-$ sudo apt install snapd
+sudo apt install snapd
 ```
 
 ```
-$ sudo snap install --classic certbot
-$ sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
 ```
 
 Lasse dir anschließend von certbot ein Zertifikat ausstellen (Eventuell muss der Pfad zu den Skripten angepasst werden):
 
 ```
-$ sudo certbot certonly --standalone --pre-hook "bash /root/wahlrechner-server/ServerStop.sh" --post-hook "bash /root/wahlrechner-server/ServerStart.sh"
+sudo certbot certonly --standalone --pre-hook "bash /root/wahlrechner-server/ServerStop.sh" --post-hook "bash /root/wahlrechner-server/ServerStart.sh"
 ```
 
 Erstelle anschließend einen Symlink, damit die Zertifikate automatisch aktualisiert werden können. **Ersetze `example.com` durch deine Domain:**
 
 ```
-$ ln -s /etc/letsencrypt/live/example.com/* web/cert
+ln -s /etc/letsencrypt/live/example.com/* web/cert
 ```
 
 ### Eigenes Zertifikat
@@ -104,7 +104,7 @@ Du kannst auch ein eigenes Zertifikat verwenden. Dafür kopierst du den privaten
 Für den **ersten** Start führe bitte das Skript `ServerUpdate.sh` aus. Dies lädt automatisch die neuste Version herunter und führt anschließend den Server aus:
 
 ```
-$ bash ServerUpdate.sh
+bash ServerUpdate.sh
 ```
 
 Nach dem ersten Starten melde dich bitte im Admin-Panel (`https://example.com/admin`) mit dem Benutzername `admin` und dem von dir festgelegten Passwort an. Klicke anschließend oben rechts auf `Passwort ändern` und ändere dein Passwort.
@@ -116,17 +116,17 @@ Mehr Informationen zur Bedienung der Admin-Oberfläche des Wahlrechners findest 
 Du kannst den Server mit dem Skript `ServerStart.sh` **starten**:
 
 ```
-$ bash ServerStart.sh
+bash ServerStart.sh
 ```
 
 Du kannst den Server mit dem Skript `ServerStop.sh` wieder **stoppen**:
 
 ```
-$ bash ServerStop.sh
+bash ServerStop.sh
 ```
 
 Um die Wahlrechner-Instanz auf die neuste Version zu aktualisieren, führe das Skript `ServerUpdate.sh` aus. Anschließend wird der Server automatisch gestartet:
 
 ```
-$ bash ServerUpdate.sh
+bash ServerUpdate.sh
 ```
