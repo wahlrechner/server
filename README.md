@@ -130,3 +130,13 @@ Um die Wahlrechner-Instanz auf die neuste Version zu aktualisieren, führe das S
 ```
 bash ServerUpdate.sh
 ```
+
+### Automatisches Neustarten des Wahlrechners
+
+Wenn du möchtest, kannst du folgenden cron job einrichten (`crontab -e`), um alle Docker Container jede Nacht neuzustarten:
+
+```
+0 3 * * * bash /root/wahlrechner-server/ServerStop.sh && bash /root/wahlrechner-server/ServerStart.sh >/dev/null 2>&1
+```
+
+_Der Pfad muss entsprechend angepasst werden_
