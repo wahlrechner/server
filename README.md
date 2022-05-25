@@ -139,4 +139,4 @@ Wenn du möchtest, kannst du folgenden cron job einrichten (`crontab -e`), um al
 0 3 * * * bash /root/wahlrechner-server/ServerStop.sh && bash /root/wahlrechner-server/ServerStart.sh >/dev/null 2>&1
 ```
 
-_Der Pfad muss entsprechend angepasst werden_
+_Der Pfad muss entsprechend angepasst werden._
