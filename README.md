@@ -15,8 +15,9 @@ sudo apt-get install git
 ### Repository klonen
 
 ```
-git clone --recurse-submodules https://github.com/wahlrechner/server
-cd wahlrechner-server/
+mkdir wahlrechner-server/
+git clone --recurse-submodules https://github.com/wahlrechner/server wahlrechner-server/
+cd wahlrechner-server
 ```
 
 ### Installation von Docker
@@ -55,6 +56,15 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.28.4/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
+## Wahlrechner Theme als Submodul einbinden
+
+Beispiel für [theme_buxtomat](https://github.com/wahlrechner/theme_buxtomat):
+
+```
+git submodule add https://github.com/wahlrechner/theme_buxtomat.git themes/theme_buxtomat
+```
+
+
 ## Konfiguration des Wahlrechners
 
 **Bevor du den Wahlrechner-Server das erste Mal startest,** musst du die Konfigurationsdatei `config.env` anpassen. Diese ist im Ordner `config/` zu finden.
@@ -92,7 +102,8 @@ sudo certbot certonly --standalone --pre-hook "bash /root/wahlrechner-server/Ser
 Erstelle anschließend einen Symlink, damit die Zertifikate automatisch aktualisiert werden können. **Ersetze `example.com` durch deine Domain:**
 
 ```
-ln -s /etc/letsencrypt/live/example.com/* web/cert
+mkdir web/cert/
+ln -s /etc/letsencrypt/live/example.com/* web/cert/
 ```
 
 ### Eigenes Zertifikat
