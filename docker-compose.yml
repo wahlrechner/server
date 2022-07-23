@@ -8,6 +8,7 @@ services:
         restart: always
         volumes:
             - ./data/static:/code/assets/
+            . ./data/media:/code/media/
             - ./data/logs/wahlrechner:/code/logs/
             - ./data/migrations/wahlrechner:/code/wahlrechner/migrations
             - ./themes:/code/themes
@@ -37,6 +38,7 @@ services:
             - "443:443"
         volumes:
             - ./data/static:/wahlrechner/static
+            - ./data/media:/wahlrechner/media
             - ./web/cert:/wahlrechner/cert
             - ./data/logs/apache:/usr/local/apache2/logs
             - /etc/letsencrypt:/etc/letsencrypt
