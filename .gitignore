@@ -2,5 +2,6 @@ data/logs/
 data/migrations/
 data/mysql/
 data/static/
+data/media/
 /web/cert/
 LICENSE
