@@ -67,7 +67,11 @@ git submodule add https://github.com/wahlrechner/theme_buxtomat.git themes/theme
 
 ## Konfiguration des Wahlrechners
 
-**Bevor du den Wahlrechner-Server das erste Mal startest,** musst du die Konfigurationsdatei `config.env` anpassen. Diese ist im Ordner `config/` zu finden.
+**Bevor du den Wahlrechner-Server das erste Mal startest,** musst du die Konfigurationsdatei `config.env` erstellen. Eine Vorlage ist unter `config/config.env.example` zu finden.
+
+```
+cp config/config.env.example config/config.env
+```
 
 **DJANGO_SECRET_KEY:** Ersetze `ChangeThisToRandomStringInProduction` durch eine [zufällig generierte](https://1password.com/de/password-generator/) (mind. 30 Zeichen lang, bestehend aus Zahlen, Buchstaben und Sonderzeichen) Zeichenkette. Teile den Secret Key niemals mit jemand anderem!
 
