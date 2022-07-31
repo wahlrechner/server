@@ -5,3 +5,5 @@ data/static/
 data/media/
 /web/cert/
 LICENSE
+.gitmodules
+config/config.env
