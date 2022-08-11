@@ -1,8 +1,4 @@
-data/logs/
-data/migrations/
-data/mysql/
-data/static/
-data/media/
+data/*
 /web/cert/
 LICENSE
 .gitmodules
