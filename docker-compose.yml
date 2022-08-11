@@ -12,6 +12,7 @@ services:
             - ./data/logs/wahlrechner:/code/logs/
             - ./data/migrations/wahlrechner:/code/wahlrechner/migrations
             - ./themes:/code/themes
+            - ./data/stats:/code/wahlrechner/stats
         env_file:
             - ./config/config.env
         depends_on:
