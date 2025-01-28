@@ -128,8 +128,7 @@ sudo certbot certonly --standalone --pre-hook "bash /opt/wahlrechner-server/Serv
 /opt/wahlrechner-server/ServerStart.sh"
 ```
 
-Erstelle anschließend einen Symlink, damit die Zertifikate automatisch aktualisiert werden können. **Ersetze `example.com` durch deine Domain:**
-
+Erstelle anschließend einen Symlink, damit die Zertifikate automatisch aktualisiert werden können.
 ```
 
 mkdir ./web/cert/
@@ -139,6 +138,10 @@ ln -s /etc/letsencrypt/live/* ./web/cert/
 ### Eigenes Zertifikat
 
 Du kannst auch ein eigenes Zertifikat verwenden. Dafür kopierst du den privaten Schlüssel in `/web/cert/privkey.pem` und den öffentlichen Schlüssel in `/web/cert/fullchain.pem`. Andere Dateinamen und Dateiendungen sind aktuell nicht möglich.
+
+### Anpassen der `nginx.conf`
+
+Bitte passe anschließend in der `web/nginx.conf` den Pfad für das `ssl_certificate` und `ssl_certificate_key` zu deinem generierten Zertifikat an.
 
 ## Erstmaliges Starten eines Wahlrechners
 
