@@ -1,0 +1,103 @@
+events {}
+
+http {
+    server {
+        listen 80 default_server;
+
+        server_name _;
+
+        return 301 https://$host$request_uri;
+    }
+
+    server {
+        listen 443 ssl;
+
+        server_name eins.wahlrechner.local;
+
+        ssl_certificate /etc/nginx/ssl/eins.wahlrechner.local/fullchain.pem;
+        ssl_certificate_key /etc/nginx/ssl/eins.wahlrechner.local/privkey.pem;
+
+        location /static/ {
+            root /wahlrechner-eins;
+
+            types {
+                text/html html htm shtml;
+                text/css css;
+                text/xml xml;
+                image/gif gif;
+                image/jpeg jpeg jpg;
+                application/x-javascript js;
+                image/svg+xml svg;
+            }
+        }
+
+        location /media/ {
+            root /wahlrechner-eins;
+
+            types {
+                text/html html htm shtml;
+                text/css css;
+                text/xml xml;
+                image/gif gif;
+                image/jpeg jpeg jpg;
+                application/x-javascript js;
+                image/svg+xml svg;
+            }
+        }
+
+        location / {
+            proxy_pass http://wahlrechner-eins:8000;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+    }
+
+
+    # TODO: Auskommentieren für zweite Wahlrechner-Instanz. Weitere Instanzen analog hinzufügen
+    # server {
+    #     listen 443 ssl;
+
+    #     server_name zwei.wahlrechner.local;
+
+    #     ssl_certificate /etc/nginx/ssl/zwei.wahlrechner.local/fullchain.pem;
+    #     ssl_certificate_key /etc/nginx/ssl/zwei.wahlrechner.local/privkey.pem;
+
+    #     location /static/ {
+    #         root /wahlrechner-zwei;
+
+    #         types {
+    #             text/html html htm shtml;
+    #             text/css css;
+    #             text/xml xml;
+    #             image/gif gif;
+    #             image/jpeg jpeg jpg;
+    #             application/x-javascript js;
+    #             image/svg+xml svg;
+    #         }
+    #     }
+
+    #     location /media/ {
+    #         root /wahlrechner-zwei;
+
+    #         types {
+    #             text/html html htm shtml;
+    #             text/css css;
+    #             text/xml xml;
+    #             image/gif gif;
+    #             image/jpeg jpeg jpg;
+    #             application/x-javascript js;
+    #             image/svg+xml svg;
+    #         }
+    #     }
+
+    #     location / {
+    #         proxy_pass http://wahlrechner-zwei:8000;
+    #         proxy_set_header Host $host;
+    #         proxy_set_header X-Real-IP $remote_addr;
+    #         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    #         proxy_set_header X-Forwarded-Proto $scheme;
+    #     }
+    # }
+}
