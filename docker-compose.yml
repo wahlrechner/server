@@ -1,45 +1,78 @@
-version: "3"
-
 services:
-    wahlrechner:
-        container_name: wahlrechner
+    wahlrechner-eins:
+        container_name: wahlrechner-eins
         image: ghcr.io/wahlrechner/wahlrechner:latest
-        command: bash -c 'docker/wait-for-it/wait-for-it.sh db:3306 -t 120 -- docker/startup-production.sh'
+        command: bash -c 'chmod +x docker/wait-for-it/wait-for-it.sh && chmod +x docker/startup-production.sh && docker/wait-for-it/wait-for-it.sh wahlrechner-eins-db:3306 -t 120 -- docker/startup-production.sh'
         restart: always
         volumes:
-            - ./data/static:/code/assets/
-            - ./data/media:/code/media/
-            - ./data/logs/wahlrechner:/code/logs/
-            - ./data/migrations/wahlrechner:/code/wahlrechner/migrations
+            - ./data/wahlrechner-eins/static:/code/assets/
+            - ./data/wahlrechner-eins/media:/code/media/
+            - ./data/wahlrechner-eins/logs/wahlrechner:/code/logs/
+            - ./data/wahlrechner-eins/migrations/wahlrechner:/code/wahlrechner/migrations
             - ./themes:/code/themes
-            - ./data/stats:/code/wahlrechner/stats
+            - ./data/wahlrechner-eins/stats:/code/wahlrechner/stats
         env_file:
-            - ./config/config.env
+            - ./config/global.env
+            - ./config/wahlrechner-eins.env
         depends_on:
-            - db
+            - wahlrechner-eins-db
 
-    db:
-        container_name: db
+    wahlrechner-eins-db:
+        container_name: wahlrechner-eins-db
         image: mariadb
         restart: always
-        ports:
-            - "3306:3306"
         env_file:
-            - ./config/config.env
+            - ./config/global.env
+            - ./config/wahlrechner-eins.env
         volumes:
-            - ./data/mysql:/var/lib/mysql
+            - ./data/wahlrechner-eins/mysql:/var/lib/mysql
+
+    # TODO: Auskommentieren für zweite Wahlrechner-Instanz. Weitere Instanzen analog hinzufügen
+    # wahlrechner-zwei:
+    #     container_name: wahlrechner-zwei
+    #     image: ghcr.io/wahlrechner/wahlrechner:latest
+    #     command: bash -c 'chmod +x docker/wait-for-it/wait-for-it.sh && chmod +x docker/startup-production.sh && docker/wait-for-it/wait-for-it.sh wahlrechner-zwei-db:3306 -t 120 -- docker/startup-production.sh'
+    #     restart: always
+    #     volumes:
+    #         - ./data/wahlrechner-zwei/static:/code/assets/
+    #         - ./data/wahlrechner-zwei/media:/code/media/
+    #         - ./data/wahlrechner-zwei/logs/wahlrechner:/code/logs/
+    #         - ./data/wahlrechner-zwei/migrations/wahlrechner:/code/wahlrechner/migrations
+    #         - ./themes:/code/themes
+    #         - ./data/wahlrechner-zwei/stats:/code/wahlrechner/stats
+    #     env_file:
+    #         - ./config/global.env
+    #         - ./config/wahlrechner-zwei.env
+    #     depends_on:
+    #         - wahlrechner-zwei-db
+    #
+    # wahlrechner-zwei-db:
+    #     container_name: wahlrechner-zwei-db
+    #     image: mariadb
+    #     restart: always
+    #     env_file:
+    #         - ./config/global.env
+    #         - ./config/wahlrechner-zwei.env
+    #     volumes:
+    #         - ./data/wahlrechner-zwei/mysql:/var/lib/mysql
 
     web:
-        container_name: web
-        build:
-            context: web/apache
+        container_name: wahlrechner-web
+        image: nginx:latest
         restart: always
         ports:
             - "80:80"
             - "443:443"
         volumes:
-            - ./data/static:/wahlrechner/static
-            - ./data/media:/wahlrechner/media
-            - ./web/cert:/wahlrechner/cert
-            - ./data/logs/apache:/usr/local/apache2/logs
+            - ./web/nginx.conf:/etc/nginx/nginx.conf
+            - ./web/cert:/etc/nginx/ssl
             - /etc/letsencrypt:/etc/letsencrypt
+            # TODO: Pro Wahlrechner-Instanz müssen hier zwei Zeilen hinzugefügt werden
+            - ./data/wahlrechner-eins/static:/wahlrechner-eins/static
+            - ./data/wahlrechner-eins/media:/wahlrechner-eins/media
+            # - ./data/wahlrechner-zwei/static:/wahlrechner-zwei/static
+            # - ./data/wahlrechner-zwei/media:/wahlrechner-zwei/media
+        depends_on:
+            # TODO: Pro Wahlrechner-Instanz muss hier eine Zeile hinzugefügt werden
+            - wahlrechner-eins
+            # - wahlrechner-zwei

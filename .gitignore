@@ -2,4 +2,4 @@ data/*
 /web/cert/
 LICENSE
 .gitmodules
-config/config.env
+config/*.env
