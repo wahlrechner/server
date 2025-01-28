@@ -80,8 +80,7 @@ cd /opt/wahlrechner
 cp config/wahlrechner-eins.env.example config/wahlrechner-eins.env
 ```
 
-Falls du mehr als eine Wahlrechner-Instanz aufsetzen möchtest, erstelle eine Konfigurationsdatei für jede Instanz. Achte
-darauf, dass jede Instanz einen einzigartigen Datenbank-Namen erhält.
+Falls du mehr als eine Wahlrechner-Instanz aufsetzen möchtest, erstelle eine Konfigurationsdatei für jede Instanz.
 
 ## Konfiguration des Webservers
 
